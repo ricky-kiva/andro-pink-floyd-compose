@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Pink Floyd Compose</string>
+    <string name="desc_album_name">Album: %s</string>
+</resources>
