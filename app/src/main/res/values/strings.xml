@@ -2,4 +2,6 @@
     <string name="app_name">Pink Floyd Compose</string>
     <string name="desc_album_name">Album: %s</string>
     <string name="desc_arrow">Arrow</string>
+    <string name="about_page">about_page</string>
+    <string name="fav_page">favorite_page</string>
 </resources>

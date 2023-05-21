@@ -21,8 +21,10 @@ import com.rickyslash.pinkfloydcompose.ui.theme.PinkFloydComposeTheme
 import com.rickyslash.pinkfloydcompose.R
 
 @Composable
-fun AlbumListItem(imageUrl: String, title: String, release: String, onItemClick: () -> Unit) {
-    Column{
+fun AlbumListItem(imageUrl: String, title: String, release: String, modifier: Modifier = Modifier) {
+    Column (
+        modifier = modifier
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -88,7 +90,7 @@ fun AlbumListItemPreview() {
                 "https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png",
                 "Dark Side of the Moon",
                 "March 1, 1973"
-            ) {}
+            )
         }
     }
 }
