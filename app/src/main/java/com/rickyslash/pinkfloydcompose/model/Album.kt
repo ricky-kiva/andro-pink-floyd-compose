@@ -5,6 +5,6 @@ data class Album(
     val title: String,
     val release: String,
     val song: String,
-    val photoUrl: String,
+    val imageUrl: String,
     val desc: String
 )

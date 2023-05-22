@@ -26,7 +26,8 @@ fun HomeScreen(
                 HomeContent(
                     albums = uiState.data,
                     modifier = modifier,
-                    navigateToDetail = navigateToDetail)
+                    navigateToDetail = navigateToDetail
+                )
             }
             is UiState.Error -> {}
         }

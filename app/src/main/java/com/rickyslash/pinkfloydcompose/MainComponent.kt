@@ -1,6 +1,8 @@
 package com.rickyslash.pinkfloydcompose
 
+import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -22,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.rickyslash.pinkfloydcompose.ui.navigation.Screen
+import com.rickyslash.pinkfloydcompose.ui.screen.albumdetail.AlbumDetailScreen
 import com.rickyslash.pinkfloydcompose.ui.screen.home.HomeScreen
 import com.rickyslash.pinkfloydcompose.ui.theme.PinkFloydComposeTheme
 
@@ -30,28 +33,41 @@ fun MainComponent(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Home.route,
-    ) {
-        composable(Screen.Home.route) {
-            HomeScreen(
-                navigateToDetail = {
-                    navController.navigate(Screen.DetailAlbum.createRoute(it))
-                }
-            )
-        }
-        composable(
-            route = Screen.DetailAlbum.route,
-            arguments = listOf(navArgument("albumId") { type = NavType.LongType})
+    Box(modifier = modifier) {
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Home.route,
         ) {
-            val id = it.arguments?.getLong("albumId") ?: -1L
+            composable(Screen.Home.route) {
+                HomeScreen(
+                    navigateToDetail = { albumId ->
+                        Log.d("MainComponent", "Do Navigate to Detail")
+                        navController.navigate(Screen.DetailAlbum.createRoute(albumId))
+                    }
+                )
+            }
+            composable (
+                route = Screen.DetailAlbum.route,
+                arguments = listOf(navArgument("albumId") { type = NavType.LongType })
+            ) {
+                val albumId = it.arguments?.getLong("albumId") ?: -1L
+                Log.d("MainComponent","ID: $albumId Screen.DetailAlbum.Route")
+                AlbumDetailScreen(
+                    albumId = albumId,
+                    navigateBack = { navController.navigateUp() },
+                    favCallback = {}
+                )
+            }
         }
+
     }
 }
 
 @Composable
-fun MainTopBar(onMenuClick: () -> Unit) {
+fun MainTopBar(
+    aboutCallback: () -> Unit,
+    favCallback: () -> Unit
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -65,13 +81,14 @@ fun MainTopBar(onMenuClick: () -> Unit) {
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
+                .clickable { aboutCallback }
         ) {
             Icon(
                 imageVector = Icons.Outlined.Person,
                 contentDescription = stringResource(R.string.about_page),
                 modifier = Modifier
-                    .padding(8.dp)
-                    .size(11.dp)
+                    .padding(6.dp)
+                    .size(14.dp)
             )
         }
         Box(
@@ -81,13 +98,14 @@ fun MainTopBar(onMenuClick: () -> Unit) {
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
+                .clickable { favCallback }
         ) {
             Icon(
                 imageVector = Icons.Outlined.FavoriteBorder,
                 contentDescription = stringResource(R.string.fav_page),
                 modifier = Modifier
-                    .padding(8.dp)
-                    .size(11.dp)
+                    .padding(6.dp)
+                    .size(14.dp)
             )
         }
     }
@@ -98,7 +116,7 @@ fun MainTopBar(onMenuClick: () -> Unit) {
 fun MainComponentPreview() {
     PinkFloydComposeTheme(darkTheme = true) {
         Surface {
-            MainTopBar {}
+            MainTopBar({}, {})
             MainComponent()
         }
     }

@@ -75,7 +75,7 @@ fun AlbumListItem(imageUrl: String, title: String, release: String, modifier: Mo
                 AsyncImage(
                     model = imageUrl,
                     contentDescription = stringResource(R.string.desc_album_name, title),
-                    placeholder = painterResource(R.drawable.img_placeholder_dsod),
+                    placeholder = painterResource(R.drawable.img_placeholder_immersion),
                     modifier = Modifier
                         .size(64.dp)
                         .padding(12.dp)

@@ -20,6 +20,8 @@ class AlbumRepository {
         return flowOf(albums)
     }
 
+    fun getAlbumById(albumId: Long): Album = albums.first { it.id == albumId }
+
     companion object {
         @Volatile
         private var instance: AlbumRepository? = null
