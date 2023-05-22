@@ -32,7 +32,10 @@ fun AlbumListItem(imageUrl: String, title: String, release: String, modifier: Mo
                 .padding(vertical = 24.dp)
                 .fillMaxWidth()
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .weight(0.7f)
+            ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
@@ -42,13 +45,15 @@ fun AlbumListItem(imageUrl: String, title: String, release: String, modifier: Mo
                         text = title,
                         fontSize = 16.sp,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .weight(1f, false)
                     )
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowRight,
                         contentDescription = stringResource(R.string.desc_arrow),
                         modifier = Modifier
-                            .padding(start = 4.dp)
+                            .padding(top = 2.dp, start = 4.dp)
                             .size(11.dp)
                     )
                 }
@@ -65,6 +70,7 @@ fun AlbumListItem(imageUrl: String, title: String, release: String, modifier: Mo
                         shape = CircleShape,
                         color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                     )
+                    .weight(0.3f, false)
             ) {
                 AsyncImage(
                     model = imageUrl,
@@ -77,7 +83,7 @@ fun AlbumListItem(imageUrl: String, title: String, release: String, modifier: Mo
                 )
             }
         }
-        Divider(color = MaterialTheme.colors.onSecondary.copy(alpha = 0.5f))
+        Divider(color = MaterialTheme.colors.onSecondary.copy(alpha = 0.25f))
     }
 }
 

@@ -41,7 +41,7 @@ fun HomeContent(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 32.dp)
     ) {
         AlbumList(albumList = albums, navigateToDetail = navigateToDetail)
     }
