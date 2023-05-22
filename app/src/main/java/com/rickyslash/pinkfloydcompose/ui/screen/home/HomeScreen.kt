@@ -15,8 +15,8 @@ import com.rickyslash.pinkfloydcompose.ui.component.AlbumList
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
     navigateToDetail: (Long) -> Unit
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->

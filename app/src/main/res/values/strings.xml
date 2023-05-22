@@ -8,4 +8,6 @@
     <string name="desc_back">Back</string>
     <string name="ext_add_dot">%s.</string>
     <string name="band_floyd_name">Pink Floyd</string>
+    <string name="desc_prev">Previous</string>
+    <string name="desc_next">Next</string>
 </resources>

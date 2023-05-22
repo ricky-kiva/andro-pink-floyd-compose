@@ -1,18 +1,17 @@
 package com.rickyslash.pinkfloydcompose.ui.screen.albumdetail
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.KeyboardArrowLeft
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -39,13 +38,13 @@ fun AlbumDetailScreen(
     albumId: Long,
     viewModel: AlbumDetailViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
     favCallback: () -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    prevCallback: () -> Unit,
+    nextCallback: () -> Unit
 ) {
-    Log.d("AlbumDetailScreen","Before ViewModel")
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
             is UiState.Loading -> {
-                Log.d("AlbumDetailScreen","Loading Data on Album Detail")
                 viewModel.getAlbumById(albumId)
             }
             is UiState.Success -> {
@@ -54,20 +53,31 @@ fun AlbumDetailScreen(
                     modifier = Modifier
                         .padding(horizontal = 32.dp, vertical = 32.dp)
                 ) {
-                    Column(modifier = Modifier.padding(bottom = 27.dp)) {
-                        AlbumDetailTopBar(
-                            favCallback = favCallback,
-                            navigateBack = navigateBack
+                    Column(modifier = Modifier.weight(1f)) {
+                        Column(modifier = Modifier.padding(bottom = 36.dp)) {
+                            AlbumDetailTopBar(
+                                favCallback = favCallback,
+                                navigateBack = navigateBack
+                            )
+                        }
+                        AlbumDetailContent(
+                            id = data.id,
+                            title = data.title,
+                            release = data.release,
+                            song = data.song,
+                            imageUrl = data.imageUrl,
+                            desc = data.desc
                         )
                     }
-                    AlbumDetailContent(
-                        id = data.id,
-                        title = data.title,
-                        release = data.release,
-                        song = data.song,
-                        imageUrl = data.imageUrl,
-                        desc = data.desc
-                    )
+                    Column(
+                        modifier = Modifier
+                            .padding(top = 18.dp)
+                    ) {
+                        AlbumDetailNavigator(
+                            prevCallback = prevCallback,
+                            nextCallback = nextCallback
+                        )
+                    }
                 }
             }
             is UiState.Error -> {}
@@ -84,77 +94,80 @@ fun AlbumDetailContent(
     imageUrl: String,
     desc: String
 ) {
-    Box {
-        Column {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 12.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(17.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colors.onSecondary)
+    LazyColumn {
+        item {
+            Column {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(bottom = 9.dp)
                 ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colors.onSecondary)
+                    ) {
+                        Text(
+                            text = id.toString(),
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.background,
+                        )
+                    }
                     Text(
-                        text = id.toString(),
+                        text = release.uppercase(),
                         fontSize = 11.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colors.background,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = (0).sp,
+                        modifier = Modifier
+                            .padding(start = 8.dp)
                     )
                 }
                 Text(
-                    text = release.uppercase(),
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    text = stringResource(R.string.ext_add_dot, title),
+                    fontSize = 36.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(end = 12.dp, bottom = 18.dp)
                 )
-            }
-            Text(
-                text = stringResource(R.string.ext_add_dot, title),
-                fontSize = 36.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .padding(end = 12.dp, bottom = 18.dp)
-            )
-            Box(
-                modifier = Modifier
-                    .padding(bottom = 18.dp)
-            ) {
-                AsyncImage(
-                    model = imageUrl,
-                    contentDescription = stringResource(R.string.desc_album_name, title),
-                    placeholder = painterResource(R.drawable.img_placeholder_immersion),
+                Box(
                     modifier = Modifier
-                        .size(128.dp)
-                        .clip(CircleShape)
-                )
-            }
-            Text(
-                text = desc,
-                modifier = Modifier.padding(bottom = 12.dp)
-            )
-            Row {
+                        .padding(bottom = 18.dp)
+                ) {
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = stringResource(R.string.desc_album_name, title),
+                        placeholder = painterResource(R.drawable.img_placeholder_immersion),
+                        modifier = Modifier
+                            .size(128.dp)
+                            .clip(CircleShape)
+                    )
+                }
                 Text(
-                    text = song,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Medium,
+                    text = desc,
+                    modifier = Modifier.padding(bottom = 12.dp)
                 )
-                Text(
-                    text = "―",
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                )
-                Text(
-                    text = stringResource(R.string.band_floyd_name),
-                    fontSize = 11.sp,
-                    color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
-                )
+                Row {
+                    Text(
+                        text = song,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium,
+                    )
+                    Text(
+                        text = "―",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.band_floyd_name),
+                        fontSize = 11.sp,
+                        color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
+                    )
+                }
             }
         }
     }
@@ -184,8 +197,8 @@ fun AlbumDetailTopBar(
                 imageVector = Icons.Outlined.KeyboardArrowLeft,
                 contentDescription = stringResource(R.string.desc_back),
                 modifier = Modifier
-                    .padding(6.dp)
-                    .size(14.dp)
+                    .padding(12.dp)
+                    .size(16.dp)
             )
         }
         Box(
@@ -201,8 +214,54 @@ fun AlbumDetailTopBar(
                 imageVector = Icons.Outlined.FavoriteBorder,
                 contentDescription = stringResource(R.string.fav_page),
                 modifier = Modifier
-                    .padding(6.dp)
-                    .size(14.dp)
+                    .padding(12.dp)
+                    .size(16.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun AlbumDetailNavigator(
+    prevCallback: () -> Unit,
+    nextCallback: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    shape = CircleShape,
+                    color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
+                )
+                .clickable { prevCallback() }
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.ArrowBack,
+                contentDescription = stringResource(R.string.desc_prev),
+                modifier = Modifier
+                    .padding(12.dp)
+                    .size(16.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Box(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    shape = CircleShape,
+                    color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
+                )
+                .clickable { nextCallback() }
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.ArrowForward,
+                contentDescription = stringResource(R.string.desc_next),
+                modifier = Modifier
+                    .padding(12.dp)
+                    .size(16.dp)
             )
         }
     }

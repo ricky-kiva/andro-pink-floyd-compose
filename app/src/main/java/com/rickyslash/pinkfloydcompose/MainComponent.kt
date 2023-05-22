@@ -17,12 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.rickyslash.pinkfloydcompose.model.AlbumsDataSource
 import com.rickyslash.pinkfloydcompose.ui.navigation.Screen
 import com.rickyslash.pinkfloydcompose.ui.screen.albumdetail.AlbumDetailScreen
 import com.rickyslash.pinkfloydcompose.ui.screen.home.HomeScreen
@@ -41,7 +43,6 @@ fun MainComponent(
             composable(Screen.Home.route) {
                 HomeScreen(
                     navigateToDetail = { albumId ->
-                        Log.d("MainComponent", "Do Navigate to Detail")
                         navController.navigate(Screen.DetailAlbum.createRoute(albumId))
                     }
                 )
@@ -51,15 +52,37 @@ fun MainComponent(
                 arguments = listOf(navArgument("albumId") { type = NavType.LongType })
             ) {
                 val albumId = it.arguments?.getLong("albumId") ?: -1L
-                Log.d("MainComponent","ID: $albumId Screen.DetailAlbum.Route")
                 AlbumDetailScreen(
                     albumId = albumId,
                     navigateBack = { navController.navigateUp() },
-                    favCallback = {}
+                    favCallback = {},
+                    prevCallback = {
+                        if (albumId > 1) {
+                            navController.popBackStack()
+                            navController.navigate(Screen.DetailAlbum.createRoute(albumId - 1L)) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    },
+                    nextCallback = {
+                        if (albumId < (AlbumsDataSource.albumsData.size)) {
+                            navController.popBackStack()
+                            navController.navigate(Screen.DetailAlbum.createRoute(albumId + 1L)) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    }
                 )
             }
         }
-
     }
 }
 
@@ -81,7 +104,7 @@ fun MainTopBar(
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
-                .clickable { aboutCallback }
+                .clickable { aboutCallback() }
         ) {
             Icon(
                 imageVector = Icons.Outlined.Person,
@@ -98,7 +121,7 @@ fun MainTopBar(
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
-                .clickable { favCallback }
+                .clickable { favCallback() }
         ) {
             Icon(
                 imageVector = Icons.Outlined.FavoriteBorder,
