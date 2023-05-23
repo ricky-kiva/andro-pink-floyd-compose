@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import com.rickyslash.pinkfloydcompose.R
 
 @Composable
-fun HeaderDesc(title: String, desc: String, modifier: Modifier = Modifier) {
+fun HeaderDesc(modifier: Modifier = Modifier, title: String, desc: String) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.ext_add_dot, title),

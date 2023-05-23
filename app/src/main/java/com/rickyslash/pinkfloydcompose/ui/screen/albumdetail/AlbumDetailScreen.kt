@@ -37,6 +37,7 @@ import androidx.compose.runtime.getValue
 
 @Composable
 fun AlbumDetailScreen(
+    modifier: Modifier = Modifier,
     albumId: Long,
     viewModel: AlbumDetailViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
     navigateBack: () -> Unit,
@@ -57,7 +58,7 @@ fun AlbumDetailScreen(
             is UiState.Success -> {
                 val data = uiState.data
                 Column(
-                    modifier = Modifier
+                    modifier = modifier
                         .padding(horizontal = 32.dp, vertical = 32.dp)
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
@@ -95,6 +96,7 @@ fun AlbumDetailScreen(
 
 @Composable
 fun AlbumDetailContent(
+    modifier: Modifier = Modifier,
     id: Long,
     title: String,
     release: String,
@@ -102,7 +104,7 @@ fun AlbumDetailContent(
     imageUrl: String,
     desc: String
 ) {
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         item {
             Column {
                 Row(
@@ -183,6 +185,7 @@ fun AlbumDetailContent(
 
 @Composable
 fun AlbumDetailTopBar(
+    modifier: Modifier = Modifier,
     favState: Boolean,
     favCallback: () -> Unit,
     navigateBack: () -> Unit
@@ -190,7 +193,7 @@ fun AlbumDetailTopBar(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         Box(
@@ -224,7 +227,7 @@ fun AlbumDetailTopBar(
         ) {
             Icon(
                 imageVector = if (favState) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
-                contentDescription = stringResource(R.string.fav_page),
+                contentDescription = stringResource(R.string.desc_add_fav),
                 tint = if (favState) MaterialTheme.colors.background else MaterialTheme.colors.onSecondary,
                 modifier = Modifier
                     .padding(12.dp)
@@ -236,11 +239,13 @@ fun AlbumDetailTopBar(
 
 @Composable
 fun AlbumDetailNavigator(
+    modifier: Modifier = Modifier,
     prevCallback: () -> Unit,
     nextCallback: () -> Unit
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
     ) {
         Box(
             modifier = Modifier
@@ -292,7 +297,7 @@ fun AlbumDetailPreview() {
                 modifier = Modifier
                     .padding(horizontal = 32.dp, vertical = 32.dp)
             ) {
-                Column(modifier = Modifier.padding(bottom = 27.dp)) { AlbumDetailTopBar(true, {}, {}) }
+                Column(modifier = Modifier.padding(bottom = 27.dp)) { AlbumDetailTopBar(favState = true, favCallback = {}, navigateBack = {}) }
                 AlbumDetailContent(
                     id = data.id,
                     title = data.title,

@@ -29,11 +29,12 @@ import com.rickyslash.pinkfloydcompose.R
 
 @Composable
 fun AboutScreen(
+    modifier: Modifier = Modifier,
     navigateBack: () -> Unit
 ) {
     val uriHandler = LocalUriHandler.current
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 32.dp, vertical = 32.dp)
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -58,6 +59,7 @@ fun AboutScreen(
 
 @Composable
 fun AboutContent(
+    modifier: Modifier = Modifier,
     id: String,
     name: String,
     title: String,
@@ -66,7 +68,7 @@ fun AboutContent(
     imageUrl: String,
     motto: String
 ) {
-    LazyColumn {
+    LazyColumn(modifier = modifier) {
         item {
             Column {
                 Row(
@@ -147,6 +149,7 @@ fun AboutContent(
 
 @Composable
 fun AboutTopBar(
+    modifier: Modifier = Modifier,
     navigateBack: () -> Unit,
     uriHandler: UriHandler
 ) {
@@ -154,7 +157,7 @@ fun AboutTopBar(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         Box(

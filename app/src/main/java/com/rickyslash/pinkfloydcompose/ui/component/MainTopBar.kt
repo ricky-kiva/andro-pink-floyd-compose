@@ -21,13 +21,14 @@ import com.rickyslash.pinkfloydcompose.R
 
 @Composable
 fun MainTopBar(
+    modifier: Modifier = Modifier,
     aboutCallback: () -> Unit,
     favCallback: () -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         Box(

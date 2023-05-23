@@ -21,7 +21,7 @@ import com.rickyslash.pinkfloydcompose.ui.theme.PinkFloydComposeTheme
 import com.rickyslash.pinkfloydcompose.R
 
 @Composable
-fun AlbumListItem(imageUrl: String, title: String, release: String, modifier: Modifier = Modifier) {
+fun AlbumListItem(modifier: Modifier = Modifier, imageUrl: String, title: String, release: String) {
     Column (
         modifier = modifier
     ) {
@@ -93,9 +93,9 @@ fun AlbumListItemPreview() {
     PinkFloydComposeTheme(darkTheme = true) {
         Surface {
             AlbumListItem(
-                "https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png",
-                "Dark Side of the Moon",
-                "March 1, 1973"
+                imageUrl = "https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png",
+                title = "Dark Side of the Moon",
+                release = "March 1, 1973"
             )
         }
     }

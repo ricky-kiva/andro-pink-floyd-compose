@@ -99,13 +99,14 @@ fun FavContent(
 
 @Composable
 fun FavTopBar(
+    modifier: Modifier = Modifier,
     navigateBack: () -> Unit,
     aboutCallback: () -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         Box(
