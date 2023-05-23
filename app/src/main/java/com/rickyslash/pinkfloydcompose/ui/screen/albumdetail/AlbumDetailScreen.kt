@@ -1,6 +1,5 @@
 package com.rickyslash.pinkfloydcompose.ui.screen.albumdetail
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -245,6 +244,7 @@ fun AlbumDetailNavigator(
     ) {
         Box(
             modifier = Modifier
+                .clip(CircleShape)
                 .border(
                     width = 1.dp,
                     shape = CircleShape,
@@ -263,6 +263,7 @@ fun AlbumDetailNavigator(
         Spacer(modifier = Modifier.width(8.dp))
         Box(
             modifier = Modifier
+                .clip(CircleShape)
                 .border(
                     width = 1.dp,
                     shape = CircleShape,

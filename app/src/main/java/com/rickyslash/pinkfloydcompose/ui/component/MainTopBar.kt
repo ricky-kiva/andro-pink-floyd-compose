@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.rickyslash.pinkfloydcompose.R
 
@@ -54,6 +56,9 @@ fun MainTopBar(
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
+                .semantics(mergeDescendants = true) {
+                    contentDescription = "about_page"
+                }
                 .clickable { aboutCallback() }
         ) {
             Icon(

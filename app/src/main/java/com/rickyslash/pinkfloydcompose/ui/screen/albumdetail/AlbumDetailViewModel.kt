@@ -7,7 +7,6 @@ import com.rickyslash.pinkfloydcompose.model.Album
 import com.rickyslash.pinkfloydcompose.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class AlbumDetailViewModel(private val repository: AlbumRepository): ViewModel() {
