@@ -16,4 +16,13 @@
     <string name="floyd_lyrics_breathe_reff">For long you live and high you fly. Smiles you\'ll give and tears you\'ll cry. And all you touch, and all you see. Is all your life will ever be.</string>
     <string name="label_empty_favorite">Infuse some masterpieces into your favorite list.</string>
     <string name="label_empty_albums">There is no album to be displayed currently.</string>
+    <string name="dev_name">Ricky Fadel M</string>
+    <string name="dev_photo_link">https://media.licdn.com/dms/image/D5603AQFvUCh4o86yvQ/profile-displayphoto-shrink_800_800/0/1681237701604?e=1690416000&amp;v=beta&amp;t=K2JEB_ZCaIqKDDQKz3VrBglZ45_tbIXXBxumhkhLQO4</string>
+    <string name="dev_motto">Currently building expertise in AI &amp; Mobile Development. Also has passion &amp; experience in movie directing. If you love to make something that could brings impact to life, we should have a project together.</string>
+    <string name="dev_email">ricky.kiva@mail.ugm.ac.id</string>
+    <string name="label_email">Email</string>
+    <string name="label_about">About Developer</string>
+    <string name="dev_release_date">Around May 2023</string>
+    <string name="dev_web_url">https://rickyslash.my.id</string>
+    <string name="desc_dev_website">Developer\'s website</string>
 </resources>

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.rickyslash.pinkfloydcompose.R
@@ -29,6 +30,7 @@ fun MainTopBar(
     ) {
         Box(
             modifier = Modifier
+                .clip(CircleShape)
                 .border(
                     width = 1.dp,
                     shape = CircleShape,
@@ -46,6 +48,7 @@ fun MainTopBar(
         }
         Box(
             modifier = Modifier
+                .clip(CircleShape)
                 .border(
                     width = 1.dp,
                     shape = CircleShape,

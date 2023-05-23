@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.rickyslash.pinkfloydcompose.model.AlbumsDataSource
 import com.rickyslash.pinkfloydcompose.ui.navigation.Screen
+import com.rickyslash.pinkfloydcompose.ui.screen.about.AboutScreen
 import com.rickyslash.pinkfloydcompose.ui.screen.albumdetail.AlbumDetailScreen
 import com.rickyslash.pinkfloydcompose.ui.screen.fav.FavScreen
 import com.rickyslash.pinkfloydcompose.ui.screen.home.HomeScreen
@@ -32,7 +33,7 @@ fun MainComponent(
             composable(Screen.Home.route) {
                 HomeScreen(
                     navigateToFav = { navController.navigate(Screen.Favorite.route) },
-                    navigateToAbout = {},
+                    navigateToAbout = { navController.navigate(Screen.About.route) },
                     navigateToDetail = { albumId ->
                         navController.navigate(Screen.DetailAlbum.createRoute(albumId))
                     },
@@ -42,10 +43,15 @@ fun MainComponent(
             composable(Screen.Favorite.route) {
                 FavScreen(
                     navigateBack = { navController.navigateUp() },
-                    navigateToAbout = {},
+                    navigateToAbout = { navController.navigate(Screen.About.route) },
                     navigateToDetail = { albumId ->
                         navController.navigate(Screen.DetailAlbum.createRoute(albumId))
                     }
+                )
+            }
+            composable(Screen.About.route) {
+                AboutScreen(
+                    navigateBack = { navController.navigateUp() }
                 )
             }
             composable (

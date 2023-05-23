@@ -148,7 +148,7 @@ fun AlbumDetailContent(
                     AsyncImage(
                         model = imageUrl,
                         contentDescription = stringResource(R.string.desc_album_name, title),
-                        placeholder = painterResource(R.drawable.img_placeholder_immersion),
+                        placeholder = painterResource(R.drawable.img_placeholder_dsod_wembley),
                         modifier = Modifier
                             .size(128.dp)
                             .clip(CircleShape)
