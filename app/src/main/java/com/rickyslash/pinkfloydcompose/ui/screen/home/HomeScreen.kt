@@ -12,6 +12,8 @@ import com.rickyslash.pinkfloydcompose.model.Album
 import com.rickyslash.pinkfloydcompose.ui.common.UiState
 import com.rickyslash.pinkfloydcompose.ui.component.AlbumList
 import com.rickyslash.pinkfloydcompose.ui.component.MainTopBar
+import androidx.compose.runtime.getValue
+import com.rickyslash.pinkfloydcompose.ui.component.SearchBar
 
 @Composable
 fun HomeScreen(
@@ -20,6 +22,7 @@ fun HomeScreen(
     navigateToDetail: (Long) -> Unit,
     navigateToFav: () -> Unit
 ) {
+    val query by viewModel.query
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
             is UiState.Loading -> { viewModel.getAllAlbums() }
@@ -33,6 +36,9 @@ fun HomeScreen(
                             aboutCallback = {},
                             favCallback = navigateToFav
                         )
+                    }
+                    Column(modifier = Modifier.padding(bottom = 16.dp)) {
+                        SearchBar(query = query, onQueryChange = viewModel::search)
                     }
                     HomeContent(
                         albums = uiState.data,

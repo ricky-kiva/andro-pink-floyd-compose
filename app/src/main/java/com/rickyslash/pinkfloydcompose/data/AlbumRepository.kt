@@ -45,6 +45,12 @@ class AlbumRepository {
         }
     }
 
+    fun searchAlbum(query: String): Flow<List<Album>> {
+        return getAllAlbums().map { albums ->
+            albums.filter { it.title.contains(query, ignoreCase = true) }
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: AlbumRepository? = null

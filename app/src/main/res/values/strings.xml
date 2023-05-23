@@ -10,4 +10,5 @@
     <string name="band_floyd_name">Pink Floyd</string>
     <string name="desc_prev">Previous</string>
     <string name="desc_next">Next</string>
+    <string name="desc_search">Search</string>
 </resources>
