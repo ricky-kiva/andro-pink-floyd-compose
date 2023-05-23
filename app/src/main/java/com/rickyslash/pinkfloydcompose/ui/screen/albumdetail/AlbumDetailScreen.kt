@@ -1,5 +1,6 @@
 package com.rickyslash.pinkfloydcompose.ui.screen.albumdetail
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,16 +34,22 @@ import com.rickyslash.pinkfloydcompose.ui.common.UiState
 import com.rickyslash.pinkfloydcompose.R
 import com.rickyslash.pinkfloydcompose.model.AlbumsDataSource
 import com.rickyslash.pinkfloydcompose.ui.theme.PinkFloydComposeTheme
+import androidx.compose.runtime.getValue
 
 @Composable
 fun AlbumDetailScreen(
     albumId: Long,
     viewModel: AlbumDetailViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
-    favCallback: () -> Unit,
     navigateBack: () -> Unit,
     prevCallback: () -> Unit,
     nextCallback: () -> Unit
 ) {
+
+    LaunchedEffect(Unit) {
+        viewModel.renewFavState(albumId)
+    }
+
+    val favState by viewModel.favState.collectAsState()
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
             is UiState.Loading -> {
@@ -54,9 +62,10 @@ fun AlbumDetailScreen(
                         .padding(horizontal = 32.dp, vertical = 32.dp)
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Column(modifier = Modifier.padding(bottom = 36.dp)) {
+                        Column(modifier = Modifier.padding(bottom = 32.dp)) {
                             AlbumDetailTopBar(
-                                favCallback = favCallback,
+                                favState = favState,
+                                favCallback = { viewModel.updateFav(data.id) },
                                 navigateBack = navigateBack
                             )
                         }
@@ -175,6 +184,7 @@ fun AlbumDetailContent(
 
 @Composable
 fun AlbumDetailTopBar(
+    favState: Boolean,
     favCallback: () -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -186,6 +196,7 @@ fun AlbumDetailTopBar(
     ) {
         Box(
             modifier = Modifier
+                .clip(CircleShape)
                 .border(
                     width = 1.dp,
                     shape = CircleShape,
@@ -203,16 +214,19 @@ fun AlbumDetailTopBar(
         }
         Box(
             modifier = Modifier
+                .clip(CircleShape)
                 .border(
                     width = 1.dp,
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
+                .background(if (favState) MaterialTheme.colors.onSecondary else MaterialTheme.colors.background)
                 .clickable { favCallback() }
         ) {
             Icon(
-                imageVector = Icons.Outlined.FavoriteBorder,
+                imageVector = if (favState) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
                 contentDescription = stringResource(R.string.fav_page),
+                tint = if (favState) MaterialTheme.colors.background else MaterialTheme.colors.onSecondary,
                 modifier = Modifier
                     .padding(12.dp)
                     .size(16.dp)
@@ -277,7 +291,7 @@ fun AlbumDetailPreview() {
                 modifier = Modifier
                     .padding(horizontal = 32.dp, vertical = 32.dp)
             ) {
-                Column(modifier = Modifier.padding(bottom = 27.dp)) { AlbumDetailTopBar({}, {}) }
+                Column(modifier = Modifier.padding(bottom = 27.dp)) { AlbumDetailTopBar(true, {}, {}) }
                 AlbumDetailContent(
                     id = data.id,
                     title = data.title,
