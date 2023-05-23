@@ -34,11 +34,11 @@ fun MainTopBar(
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
-                .clickable { aboutCallback() }
+                .clickable { favCallback() }
         ) {
             Icon(
-                imageVector = Icons.Outlined.Person,
-                contentDescription = stringResource(R.string.about_page),
+                imageVector = Icons.Outlined.FavoriteBorder,
+                contentDescription = stringResource(R.string.fav_page),
                 modifier = Modifier
                     .padding(12.dp)
                     .size(16.dp)
@@ -51,11 +51,11 @@ fun MainTopBar(
                     shape = CircleShape,
                     color = (MaterialTheme.colors.onSecondary).copy(alpha = 0.5f)
                 )
-                .clickable { favCallback() }
+                .clickable { aboutCallback() }
         ) {
             Icon(
-                imageVector = Icons.Outlined.FavoriteBorder,
-                contentDescription = stringResource(R.string.fav_page),
+                imageVector = Icons.Outlined.Person,
+                contentDescription = stringResource(R.string.about_page),
                 modifier = Modifier
                     .padding(12.dp)
                     .size(16.dp)

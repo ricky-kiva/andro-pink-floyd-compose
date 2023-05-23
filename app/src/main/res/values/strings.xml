@@ -11,4 +11,9 @@
     <string name="desc_prev">Previous</string>
     <string name="desc_next">Next</string>
     <string name="desc_search">Search</string>
+    <string name="band_floyd_desc">Masters of progressive rock. Renowned for intricate compositions, sonic experimentation, philosophical lyrics, &amp; theatrical extravaganza.</string>
+    <string name="label_fav">Favorites</string>
+    <string name="floyd_lyrics_breathe_reff">For long you live and high you fly. Smiles you\'ll give and tears you\'ll cry. And all you touch, and all you see. Is all your life will ever be.</string>
+    <string name="label_empty_favorite">Infuse some masterpieces into your favorite list.</string>
+    <string name="label_empty_albums">There is no album to be displayed currently.</string>
 </resources>

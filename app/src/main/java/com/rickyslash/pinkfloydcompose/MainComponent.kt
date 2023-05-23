@@ -31,14 +31,18 @@ fun MainComponent(
         ) {
             composable(Screen.Home.route) {
                 HomeScreen(
+                    navigateToFav = { navController.navigate(Screen.Favorite.route) },
+                    navigateToAbout = {},
                     navigateToDetail = { albumId ->
                         navController.navigate(Screen.DetailAlbum.createRoute(albumId))
                     },
-                    navigateToFav = { navController.navigate(Screen.Favorite.route) }
+
                 )
             }
             composable(Screen.Favorite.route) {
                 FavScreen(
+                    navigateBack = { navController.navigateUp() },
+                    navigateToAbout = {},
                     navigateToDetail = { albumId ->
                         navController.navigate(Screen.DetailAlbum.createRoute(albumId))
                     }
@@ -78,19 +82,6 @@ fun MainComponent(
                     }
                 )
             }
-        }
-    }
-}
-
-fun detailNavigator(albumId: Long, aim: String, navController: NavHostController) {
-    if (albumId < (AlbumsDataSource.albumsData.size)) {
-        navController.popBackStack()
-        navController.navigate(Screen.DetailAlbum.createRoute(albumId + 1L)) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
         }
     }
 }
