@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
 }
 
 android {
@@ -62,6 +61,11 @@ dependencies {
 
     // Async Image
     implementation "io.coil-kt:coil-compose:2.2.0"
+
+    // Compose Testing
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.5.2" // Navigation Testing
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
